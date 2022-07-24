@@ -40,6 +40,16 @@
 
       <el-table-column label="创建时间" prop="create_time" min-width="100" />
     </el-table>
+    <el-pagination
+      background
+      :current-page="queryParam.pn"
+      :page-sizes="[10, 20, 50, 100]"
+      :page-size="10"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+    />
   </div>
 </template>
 
@@ -61,6 +71,11 @@ export default {
   data() {
     return {
       list: [],
+      queryParam: {
+        pn: 1,
+        ps: 10
+      },
+      total: 0,
       listLoading: true
     }
   },
@@ -68,15 +83,24 @@ export default {
     this.fetchData()
   },
   methods: {
+    handleCurrentChange(currentPage) {
+      this.queryParam.pn = currentPage
+      this.fetchData()
+    },
+    handleSizeChange(limit) {
+      this.queryParam.ps = limit
+      this.fetchData()
+    },
     fetchData() {
       this.listLoading = true
-      getTableData().then(res => {
+      getTableData(this.queryParam).then(res => {
         if (res.code === '1') {
           this.list = res.result
           this.$message.success('查询成功')
         } else {
           this.$message.error('查询失败')
         }
+        this.total = res.total
         this.listLoading = false
       })
     }

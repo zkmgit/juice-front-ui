@@ -2,11 +2,11 @@ import { login, getInfo } from '@/api/user'
 import { setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
-const token = localStorage.getItem('token')
+// const token = localStorage.getItem('token')
 
 const getDefaultState = () => {
   return {
-    token: token,
+    token: localStorage.getItem('token'),
     name: '',
     avatar: ''
   }
@@ -72,6 +72,7 @@ const actions = {
   // user logout
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
+      console.log('=--------------')
       // logout(state.token).then(() => {
       removeToken() // must remove  token  first
       commit('SET_TOKEN', '')

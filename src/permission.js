@@ -21,6 +21,7 @@ router.beforeEach(async(to, from, next) => {
   // const hasToken = getToken()
   // const hasToken = getToken()
   const hasToken = store.getters.token
+  console.log('hasToken', hasToken)
 
   if (hasToken) {
     if (to.path === '/login') {
