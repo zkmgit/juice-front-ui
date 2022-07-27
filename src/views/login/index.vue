@@ -1,9 +1,8 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">      
       <div class="title-container">
-        <h3 class="title">XTT 后台管理系统</h3>
+        <h3 class="title">Juice童装后台管理系统</h3>
       </div>
 
       <el-form-item>
@@ -124,7 +123,7 @@ export default {
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#283443;
+$bg:#424328;
 $light_gray:#fff;
 $cursor: #fff;
 
@@ -176,15 +175,30 @@ $light_gray:#eee;
   min-height: 100%;
   width: 100%;
   background-color: $bg;
+  // background-color: rgb(253, 253, 253);
+  background-image:url('./../../assets/index/bg.jpg');
+  /* 背景图垂直、水平均居中 */
+  background-position: center center;
+  /* 背景图不平铺 */
+  background-repeat: no-repeat;
+  /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+  background-attachment: fixed;
+  /* 让背景图基于容器大小伸缩 */
+  background-size: cover;
+  /* 设置背景颜色，背景图加载过程中会显示背景色 */
+  background-color: #464646;
   overflow: hidden;
 
   .login-form {
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 90px 35px 20px;
     margin: 0 auto;
+    margin-top: 125px;
     overflow: hidden;
+    background-color: #454545;
+    opacity: 0.8;
   }
 
   .tips {
@@ -209,7 +223,6 @@ $light_gray:#eee;
 
   .title-container {
     position: relative;
-
     .title {
       font-size: 26px;
       color: $light_gray;
