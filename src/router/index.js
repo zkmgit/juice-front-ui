@@ -68,11 +68,27 @@ export const constantRoutes = [
         component: () => import('@/mallManager/user/User.vue'),
         meta: { title: '用户列表', icon: 'table' }
       }
+    ]
+  },
+
+  {
+    path: '/baseInfo',
+    component: Layout,
+    redirect: '/baseInfo/category',
+    name: 'BaseInfo',
+    meta: { title: '基础资料', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'category',
+        name: 'Category',
+        component: () => import('@/mallManager/category/Category.vue'),
+        meta: { title: '类目管理', icon: 'table' }
+      }
       // {
-      //   path: 'tree',
-      //   name: 'Tree',
-      //   component: () => import('@/views/tree/index'),
-      //   meta: { title: 'Tree', icon: 'tree' }
+      //   path: 'user',
+      //   name: 'User',
+      //   component: () => import('@/mallManager/user/User.vue'),
+      //   meta: { title: '用户列表', icon: 'table' }
       // }
     ]
   },

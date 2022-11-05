@@ -15,12 +15,12 @@
 </template>
 
 <script>
-import { getTableData, deleteUser } from './api.js'
+import { getTableData, deleteCategory } from './api.js'
 import { BasicTable } from '@/components/Table'
 import CreateEdit from './CreateEdit.vue'
 
 export default {
-  name: 'User',
+  name: 'Category',
   components: { BasicTable, CreateEdit },
   data() {
     return {
@@ -28,11 +28,9 @@ export default {
       apiFn: () => {},
       tableColumns: [
         { label: 'ID', prop: 'id', width: '80' },
-        { label: '用户名', prop: 'username', width: '100' },
-        { label: '姓名', prop: 'name', width: '100' },
-        { label: '性别', prop: 'sexName', width: '100' },
-        { label: '状态', prop: 'statusName', width: 100 },
-        { label: '邮箱', prop: 'email', width: 90 },
+        { label: '类目名称', prop: 'category_name', width: '100' },
+        { label: '类目状态', prop: 'statusName', width: 100 },
+        { label: '类目备注', prop: 'remark', width: 90 },
         { label: '创建时间', prop: 'createTime', width: 90 },
         { label: '修改时间', prop: 'updateTime', width: 90 },
         { label: '操作', slot: 'action', width: 90 }
@@ -50,13 +48,13 @@ export default {
       this.$refs.createEditRef.init(type, row)
     },
     deleteRow(id) {
-      this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除该类目, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         // 删除数据
-        deleteUser(id).then(_ => {
+        deleteCategory(id).then(_ => {
           this.$message({
             type: 'success',
             message: '删除成功!'
