@@ -51,19 +51,20 @@ export default {
       type: Object,
       default: () => {
         return {}
-      },
-      tableColumns: { type: Array, default: () => [] },
-      apiFn: {
-        type: Function,
-        default: () => {
-          return () => {}
-        }
-      },
-      isAfterFetch: { type: [Function, undefined], default: undefined },
-      isBeforeFetch: { type: [Function, undefined], default: undefined },
-      queryName: { type: String, default: '查询' },
-      resetName: { type: String, default: '重置' }
-    }
+      }
+    },
+    tableColumns: { type: Array, default: () => [] },
+    apiFn: {
+      type: Function,
+      default: () => {
+        return () => {}
+      }
+    },
+    isAfterFetch: { type: [Function, undefined], default: undefined },
+    isBeforeFetch: { type: [Function, undefined], default: undefined },
+    isImmediateQuery: { type: Boolean, default: true },
+    queryName: { type: String, default: '查询' },
+    resetName: { type: String, default: '重置' }
   },
   data() {
     return {
@@ -85,6 +86,9 @@ export default {
       deep: true
     }
   },
+  beforeMount() {
+    this.isImmediateQuery && this.queryData()
+  },
   methods: {
     handleSelectionChange(val) {
       this.tableSelectList = val
@@ -101,21 +105,27 @@ export default {
         params = this.isBeforeFetch(params)
       }
 
-      const apiResult = await this.apiFn(params)
+      try {
+        const apiResult = await this.apiFn(params)
 
-      if (apiResult && apiResult.code === '1') {
-        if (isArray(apiResult.result) && apiResult.result.length > 0) {
-          this.tableData = isFunction(this.isAfterFetch) ? this.isAfterFetch(apiResult.result) : apiResult.result
+        if (apiResult && apiResult.code === '1') {
+          if (isArray(apiResult.result) && apiResult.result.length > 0) {
+            this.tableData = isFunction(this.isAfterFetch) ? this.isAfterFetch(apiResult.result) : apiResult.result
+          } else {
+            this.tableData = []
+          }
+
+          this.total = apiResult.total
         } else {
-          this.tableData = []
+          if (apiResult && Reflect.has(apiResult, 'msg')) {
+            this.$message.error(apiResult.msg)
+          }
         }
-
-        this.total = apiResult.total
-      } else {
-        if (apiResult && Reflect.has(apiResult, 'msg')) {
-          this.$message.error(apiResult.msg)
-        }
+      } catch {
+        this.tableData = []
+        this.total = 0
       }
+
       this.tableRegionLoading = false
     },
     resetQueryParams() {
