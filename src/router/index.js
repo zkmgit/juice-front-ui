@@ -66,7 +66,7 @@ export const constantRoutes = [
         path: 'user',
         name: 'User',
         component: () => import('@/mallManager/user/User.vue'),
-        meta: { title: '用户列表', icon: 'table' }
+        meta: { title: '用户管理', icon: 'dashboard' }
       }
     ]
   },
@@ -76,20 +76,20 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/baseInfo/category',
     name: 'BaseInfo',
-    meta: { title: '基础资料', icon: 'el-icon-s-help' },
+    meta: { title: '基础资料', icon: 'dashboard' },
     children: [
       {
         path: 'category',
         name: 'Category',
         component: () => import('@/mallManager/category/Category.vue'),
-        meta: { title: '类目管理', icon: 'table' }
+        meta: { title: '类目管理', icon: 'dashboard' }
+      },
+      {
+        path: 'attribute',
+        name: 'Attribute',
+        component: () => import('@/mallManager/attribute/Attribute.vue'),
+        meta: { title: '属性管理', icon: 'dashboard' }
       }
-      // {
-      //   path: 'user',
-      //   name: 'User',
-      //   component: () => import('@/mallManager/user/User.vue'),
-      //   meta: { title: '用户列表', icon: 'table' }
-      // }
     ]
   },
 
