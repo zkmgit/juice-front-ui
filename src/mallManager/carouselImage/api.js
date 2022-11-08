@@ -23,6 +23,14 @@ export function updateCarouselImage(data) {
     data
   })
 }
+// 编辑轮播图排序
+export function batchSortCarouselImage(data) {
+  return request({
+    url: '/api/carouselImage/batchSortCarouselImage',
+    method: 'post',
+    data
+  })
+}
 // 删除轮播图
 export function deleteCarouselImage(id) {
   return request({

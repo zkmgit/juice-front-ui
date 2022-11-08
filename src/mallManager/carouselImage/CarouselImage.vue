@@ -16,9 +16,11 @@
 
       <template #tableButton>
         <el-button size="mini" type="primary" @click="modifyDialog(1)">新增</el-button>
+        <el-button size="mini" type="primary" @click="sortDialog">轮播图排序</el-button>
       </template>
     </basic-table>
     <CreateEdit ref="createEditRef" />
+    <SortConfig ref="sortConfigRef" />
   </div>
 </template>
 
@@ -26,10 +28,11 @@
 import { getTableData, deleteCarouselImage } from './api.js'
 import { BasicTable } from '@/components/Table'
 import CreateEdit from './CreateEdit.vue'
+import SortConfig from './SortConfig.vue'
 
 export default {
   name: 'CarouselImage',
-  components: { BasicTable, CreateEdit },
+  components: { BasicTable, CreateEdit, SortConfig },
   data() {
     return {
       queryParams: {},
@@ -72,6 +75,22 @@ export default {
       }).catch(() => {
 
       })
+    },
+    async sortDialog() {
+      const res = await getTableData({ ps: 999, pn: 1 })
+
+      if (res.code === '1') {
+        const data = res.result.map(item => {
+          return {
+            id: item.id,
+            name: item.title
+          }
+        })
+
+        this.$refs.sortConfigRef.init(data)
+      } else {
+        this.$message.error(res.msg)
+      }
     }
   }
 }
