@@ -72,6 +72,22 @@ export const constantRoutes = [
   },
 
   {
+    path: '/carouselImageManager',
+    component: Layout,
+    redirect: '/carouselImageManager/carouselImage',
+    name: 'CarouselImageManager',
+    meta: { title: '用户管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'carouselImage',
+        name: 'CarouselImage',
+        component: () => import('@/mallManager/carouselImage/CarouselImage.vue'),
+        meta: { title: '轮播图管理', icon: 'dashboard' }
+      }
+    ]
+  },
+
+  {
     path: '/baseInfo',
     component: Layout,
     redirect: '/baseInfo/category',
