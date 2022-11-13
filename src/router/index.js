@@ -51,7 +51,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '工作台', icon: 'dashboard' }
     }]
   },
 
@@ -65,97 +65,61 @@ export const constantRoutes = [
       {
         path: 'user',
         name: 'User',
-        component: () => import('@/mallManager/views/userManager/user/index.vue'),
-        meta: { title: '用户列表', icon: 'table' }
-      }
-      // {
-      //   path: 'tree',
-      //   name: 'Tree',
-      //   component: () => import('@/views/tree/index'),
-      //   meta: { title: 'Tree', icon: 'tree' }
-      // }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        component: () => import('@/mallManager/user/User.vue'),
+        meta: { title: '用户管理', icon: 'dashboard' }
       }
     ]
   },
 
   {
-    path: '/nested',
+    path: '/carouselImageManager',
     component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
-    },
+    redirect: '/carouselImageManager/carouselImage',
+    name: 'CarouselImageManager',
+    meta: { title: '轮播图管理', icon: 'el-icon-s-help' },
     children: [
       {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
+        path: 'carouselImage',
+        name: 'CarouselImage',
+        component: () => import('@/mallManager/carouselImage/CarouselImage.vue'),
+        meta: { title: '轮播图管理', icon: 'dashboard' }
+      }
+    ]
+  },
+  {
+    path: '/productManager',
+    component: Layout,
+    redirect: '/productManager/product',
+    name: 'ProductManager',
+    meta: { title: '产品管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'product',
+        name: 'Product',
+        component: () => import('@/mallManager/product/Product.vue'),
+        meta: { title: '产品管理', icon: 'dashboard' }
+      }
+    ]
+  },
+
+  {
+    path: '/baseInfo',
+    component: Layout,
+    redirect: '/baseInfo/category',
+    name: 'BaseInfo',
+    meta: { title: '基础资料', icon: 'dashboard' },
+    children: [
+      {
+        path: 'category',
+        name: 'Category',
+        component: () => import('@/mallManager/category/Category.vue'),
+        meta: { title: '类目管理', icon: 'dashboard' }
       },
       {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        name: 'Menu2',
-        meta: { title: 'menu2' }
-      }
-    ]
-  },
-
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: 'attribute',
+        name: 'Attribute',
+        component: () => import('@/mallManager/attribute/Attribute.vue'),
+        meta: { title: '属性管理', icon: 'dashboard' }
       }
     ]
   },
