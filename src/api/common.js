@@ -1,8 +1,22 @@
 import request from '@/utils/request'
-
-export function getCarouselImageList(data) {
+// 获取轮播图
+export function getCarouselImageList() {
   return request({
     url: '/api/system/carouselImageList',
+    method: 'get'
+  })
+}
+// 获取类目
+export function getCategoryList() {
+  return request({
+    url: '/api/system/categoryList',
+    method: 'get'
+  })
+}
+// 获取属性
+export function getAttributeList() {
+  return request({
+    url: '/api/system/attributeList',
     method: 'get'
   })
 }

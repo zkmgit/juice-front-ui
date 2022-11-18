@@ -125,6 +125,10 @@ export default {
     resetComRef() {
       this.fileList = []
       if (this.$refs['uploadRef']) this.$refs['uploadRef'].clearFiles()
+    },
+    // 设置照片墙
+    setFileListValue(fileList) {
+      this.fileList = fileList
     }
   }
 }

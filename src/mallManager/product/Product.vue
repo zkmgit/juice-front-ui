@@ -1,6 +1,15 @@
 <template>
   <div class="app-container">
     <basic-table ref="basicTableRef" :table-columns="tableColumns" :query-params="queryParams" :selection="true" :api-fn="apiFn">
+
+      <template #image="{ row }">
+        <el-image
+          style="width: 100px; height: 100px"
+          :src="row.image"
+          :preview-src-list="[row.image]"
+        />
+      </template>
+
       <template #action="{ row }">
         <el-button size="mini" type="warning" @click="modifyDialog(2, row)">编辑</el-button>
         <el-button size="mini" type="danger" @click="deleteRow(row.id)">删除</el-button>
@@ -30,11 +39,16 @@ export default {
         { label: 'ID', prop: 'id', width: '80' },
         { label: 'SPU', prop: 'spu', width: '100' },
         { label: '产品名称', prop: 'title', width: '100' },
-        { label: '图片', prop: 'image', width: 100 },
+        { label: '图片', prop: 'image', slot: 'image', width: 100 },
+        { label: '类目名称', prop: 'categoryName', width: '100' },
+        { label: '属性名称', prop: 'attributesName', width: '100' },
+        { label: '产品状态', prop: 'statusName', width: 100 },
         { label: '产品价格', prop: 'price', width: 100 },
-        { label: '创建时间', prop: 'createTime', width: 90 },
-        { label: '修改时间', prop: 'updateTime', width: 90 },
-        { label: '操作', slot: 'action', width: 90 }
+        { label: '库存', prop: 'inventory', width: 100 },
+        { label: '产品描述', prop: 'remark', width: 100 },
+        { label: '创建时间', prop: 'createTime', width: 130 },
+        { label: '修改时间', prop: 'updateTime', width: 130 },
+        { label: '操作', slot: 'action', width: 130 }
       ]
     }
   },
