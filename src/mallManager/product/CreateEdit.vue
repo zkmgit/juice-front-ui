@@ -175,13 +175,13 @@ export default {
       const row = this.categoryList.find(item => +item.value === +param.category_id)
 
       if (row) {
-        this.formData.categoryName = row.label
+        param.categoryName = row.label
       }
       // 属性
-      const attrNames = this.attributeList.filter(item => param.attributes.includes(item.value)).map(sItem => sItem.label).join(',')
+      const attrNames = this.attributeList.filter(item => param.attributes.split(',').includes(`${item.value}`)).map(sItem => sItem.label).join(',')
 
       if (attrNames) {
-        this.formData.attributesName = attrNames
+        param.attributesName = attrNames
       }
 
       if (this.type === 1) {
