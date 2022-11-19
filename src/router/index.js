@@ -103,6 +103,22 @@ export const constantRoutes = [
   },
 
   {
+    path: '/shoppingCartManager',
+    component: Layout,
+    redirect: '/shoppingCartManager/shoppingCart',
+    name: 'ShoppingCartManager',
+    meta: { title: '购物车管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'shoppingCart',
+        name: 'ShoppingCart',
+        component: () => import('@/mallManager/shoppingCart/ShoppingCart.vue'),
+        meta: { title: '购物车管理', icon: 'dashboard' }
+      }
+    ]
+  },
+
+  {
     path: '/baseInfo',
     component: Layout,
     redirect: '/baseInfo/category',
