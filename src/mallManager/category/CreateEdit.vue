@@ -5,6 +5,10 @@
         <el-input v-model="formData.category_name" placeholder="请输入类目名称" />
       </el-form-item>
 
+      <el-form-item label="图片" prop="image">
+        <UploadImage ref="imageRef" v-model="formData.image" :headers="headers" />
+      </el-form-item>
+
       <el-form-item label="状态" prop="status">
         <el-radio-group v-model="formData.status">
           <el-radio :label="1">启用</el-radio>
@@ -26,9 +30,14 @@
 </template>
 <script>
 import { insertCategory, updateCategory } from './api.js'
+import { getToken } from '@/utils/auth'
+import { UploadImage } from '@/components/UploadImage'
 
 export default {
   name: 'CreateEdit',
+  components: {
+    UploadImage
+  },
   data() {
     return {
       type: '',
@@ -37,29 +46,41 @@ export default {
       formData: {
         id: '',
         category_name: '',
+        image: '',
         remark: '',
         status: 1
       },
       rules: {
         category_name: [{ required: true, message: '请输入类目名称', trigger: 'blur' }],
         remark: [{ required: true, message: '请输入类目备注', trigger: 'blur' }],
+        image: [{ required: true, message: '请选择图片', trigger: 'change' }],
         status: [{ required: true, message: '请选择类目状态', trigger: 'change' }]
+      },
+      headers: {
+        Authorization: ''
       }
     }
   },
   methods: {
     async init(type, row) {
+      this.headers.Authorization = getToken()
       this.type = type
+      this.dialogVisible = true
       // 回显
       if (type === 2) {
-        const fields = ['id', 'category_name', 'remark', 'status']
+        const fields = ['id', 'category_name', 'remark', 'status', 'image']
 
         fields.forEach(field => {
-          this.formData[field] = row[field]
+          if (['image'].includes(field)) {
+            this.$nextTick(() => {
+              this.$refs['imageRef'].setFileListValue([{ name: 'name', url: row.image }])
+              this.formData[field] = row[field]
+            })
+          } else {
+            this.formData[field] = row[field]
+          }
         })
       }
-
-      this.dialogVisible = true
     },
     // 保存
     confirm() {
@@ -93,6 +114,7 @@ export default {
     // 关闭dialog层
     closeDialog() {
       this.$refs['formData'].resetFields()
+      this.$refs['imageRef'].resetComRef()
       Object.assign(this.$data.formData, this.$options.data().formData)
     }
   }

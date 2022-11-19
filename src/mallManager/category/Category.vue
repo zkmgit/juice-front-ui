@@ -1,6 +1,15 @@
 <template>
   <div class="app-container">
     <basic-table ref="basicTableRef" :table-columns="tableColumns" :query-params="queryParams" :selection="true" :api-fn="apiFn">
+
+      <template #image="{ row }">
+        <el-image
+          style="width: 100px; height: 100px"
+          :src="row.image"
+          :preview-src-list="[row.image]"
+        />
+      </template>
+
       <template #action="{ row }">
         <el-button size="mini" type="warning" @click="modifyDialog(2, row)">编辑</el-button>
         <el-button size="mini" type="danger" @click="deleteRow(row.id)">删除</el-button>
@@ -29,6 +38,7 @@ export default {
       tableColumns: [
         { label: 'ID', prop: 'id', width: '80' },
         { label: '类目名称', prop: 'category_name', width: '100' },
+        { label: '图片', prop: 'image', slot: 'image', width: 100 },
         { label: '类目状态', prop: 'statusName', width: 100 },
         { label: '类目备注', prop: 'remark', width: 90 },
         { label: '创建时间', prop: 'createTime', width: 90 },
