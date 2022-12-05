@@ -7,3 +7,11 @@ export function getTableData(data) {
     data
   })
 }
+// 发货
+export function insertLogistics(data) {
+  return request({
+    url: '/api/logistics/insertLogistics',
+    method: 'post',
+    data
+  })
+}
