@@ -135,6 +135,22 @@ export const constantRoutes = [
   },
 
   {
+    path: '/logisticsManager',
+    component: Layout,
+    redirect: '/logisticsManager/logistics',
+    name: 'LogisticsManager',
+    meta: { title: '物流管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'logistics',
+        name: 'Logistics',
+        component: () => import('@/mallManager/logistics/Logistics.vue'),
+        meta: { title: '物流管理', icon: 'dashboard' }
+      }
+    ]
+  },
+
+  {
     path: '/baseInfo',
     component: Layout,
     redirect: '/baseInfo/category',
