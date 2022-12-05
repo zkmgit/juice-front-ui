@@ -4,11 +4,11 @@
       <el-form ref="queryForm" size="small" :model="queryParams" inline>
 
         <el-form-item label="姓名：">
-          <el-input v-model="queryParams.name" />
+          <el-input v-model="queryParams.name" clearable />
         </el-form-item>
 
         <el-form-item label="用户名：">
-          <el-input v-model="queryParams.username" />
+          <el-input v-model="queryParams.username" clearable />
         </el-form-item>
 
         <el-form-item label="用户状态：">

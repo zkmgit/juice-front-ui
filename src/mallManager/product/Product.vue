@@ -1,5 +1,31 @@
 <template>
   <div class="app-container">
+    <el-card>
+      <el-form ref="queryForm" size="small" :model="queryParams" inline>
+
+        <el-form-item label="SPU：">
+          <el-input v-model="queryParams.spu" clearable />
+        </el-form-item>
+
+        <el-form-item label="产品名称：">
+          <el-input v-model="queryParams.title" clearable />
+        </el-form-item>
+
+        <el-form-item label="状态：">
+          <el-select v-model="queryParams.status" filterable clearable>
+            <el-option label="启用" :value="1" />
+            <el-option label="禁用" :value="0" />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="分类：">
+          <el-select v-model="queryParams.category_id" filterable clearable>
+            <el-option v-for="(item, index) in categoryList" :key="index" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+    </el-card>
+
     <basic-table ref="basicTableRef" :table-columns="tableColumns" :query-params="queryParams" :selection="true" :api-fn="apiFn">
 
       <template #image="{ row }">
@@ -27,13 +53,19 @@
 import { getTableData, deleteProduct } from './api.js'
 import { BasicTable } from '@/components/Table'
 import CreateEdit from './CreateEdit.vue'
+import { getCategoryList } from '@/api/common.js'
 
 export default {
   name: 'Product',
   components: { BasicTable, CreateEdit },
   data() {
     return {
-      queryParams: {},
+      queryParams: {
+        spu: '',
+        title: '',
+        category_id: '',
+        status: ''
+      },
       apiFn: () => {},
       tableColumns: [
         { label: 'ID', prop: 'id', width: '80' },
@@ -49,13 +81,24 @@ export default {
         { label: '创建时间', prop: 'createTime', width: 130 },
         { label: '修改时间', prop: 'updateTime', width: 130 },
         { label: '操作', slot: 'action', width: 130 }
-      ]
+      ],
+      categoryList: []
     }
   },
-  created() {
+  async created() {
     this.apiFn = getTableData
+    await this.getCategoryList()
   },
   methods: {
+    async getCategoryList() {
+      const res = await getCategoryList()
+
+      if (res.code === '1') {
+        this.categoryList = res.result
+      } else {
+        this.categoryList = []
+      }
+    },
     refreshTableData() {
       this.$refs.basicTableRef.queryData()
     },

@@ -20,3 +20,10 @@ export function getAttributeList() {
     method: 'get'
   })
 }
+// 获取所有用户
+export function getUserList() {
+  return request({
+    url: '/api/system/userList',
+    method: 'get'
+  })
+}
