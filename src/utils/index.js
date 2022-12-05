@@ -115,3 +115,25 @@ export function param2Obj(url) {
   })
   return obj
 }
+import { cloneDeep, isNull, isArray } from 'lodash'
+/**
+ * 过滤表单参数
+ * @param {*} params
+ * @returns
+ */
+export const filterFormParams = (params) => {
+  const newParams = cloneDeep(params)
+  Object.keys(newParams).forEach(key => {
+    const value = newParams[key]
+
+    if (isNull(value) || value === '' || value === undefined) {
+      Reflect.deleteProperty(newParams, key)
+    }
+
+    if (isArray(value) && value.length === 0) {
+      Reflect.deleteProperty(newParams, key)
+    }
+  })
+
+  return newParams
+}

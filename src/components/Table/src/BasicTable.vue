@@ -40,6 +40,7 @@
 <script>
 import { Pagination } from '@/components/Pagination'
 import { isFunction, isArray } from 'lodash'
+import { filterFormParams } from '@/utils/index.js'
 
 export default {
   name: 'BasicTable',
@@ -104,6 +105,8 @@ export default {
       if (isFunction(this.isBeforeFetch)) {
         params = this.isBeforeFetch(params)
       }
+      // 请求前统一处理入参
+      params = filterFormParams(params)
 
       try {
         const apiResult = await this.apiFn(params)

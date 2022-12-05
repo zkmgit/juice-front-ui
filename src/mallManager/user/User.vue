@@ -1,5 +1,25 @@
 <template>
   <div class="app-container">
+    <el-card>
+      <el-form ref="queryForm" size="small" :model="queryParams" inline>
+
+        <el-form-item label="姓名：">
+          <el-input v-model="queryParams.name" />
+        </el-form-item>
+
+        <el-form-item label="用户名：">
+          <el-input v-model="queryParams.username" />
+        </el-form-item>
+
+        <el-form-item label="用户状态：">
+          <el-select v-model="queryParams.status" filterable clearable>
+            <el-option label="启用" :value="1" />
+            <el-option label="禁用" :value="0" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+    </el-card>
+
     <basic-table ref="basicTableRef" :table-columns="tableColumns" :query-params="queryParams" :selection="true" :api-fn="apiFn">
       <template #action="{ row }">
         <el-button size="mini" type="warning" @click="modifyDialog(2, row)">编辑</el-button>
@@ -24,7 +44,11 @@ export default {
   components: { BasicTable, CreateEdit },
   data() {
     return {
-      queryParams: {},
+      queryParams: {
+        username: '',
+        name: '',
+        status: ''
+      },
       apiFn: () => {},
       tableColumns: [
         { label: 'ID', prop: 'id', width: '80' },
@@ -54,18 +78,18 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        // 删除数据
-        deleteUser(id).then(_ => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
-          this.refreshTableData()
-        })
-      }).catch(() => {
-
       })
+        .then(() => {
+          // 删除数据
+          deleteUser(id).then(_ => {
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            this.refreshTableData()
+          })
+        })
+        .catch(() => {})
     }
   }
 }
