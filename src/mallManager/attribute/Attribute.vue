@@ -1,5 +1,21 @@
 <template>
   <div class="app-container">
+    <el-card>
+      <el-form ref="queryForm" size="small" :model="queryParams" inline>
+
+        <el-form-item label="属性名称：">
+          <el-input v-model="queryParams.attribute_name" clearable />
+        </el-form-item>
+
+        <el-form-item label="状态：">
+          <el-select v-model="queryParams.status" filterable clearable>
+            <el-option label="启用" :value="1" />
+            <el-option label="禁用" :value="0" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+    </el-card>
+
     <basic-table ref="basicTableRef" :table-columns="tableColumns" :query-params="queryParams" :selection="true" :api-fn="apiFn">
       <template #action="{ row }">
         <el-button size="mini" type="warning" @click="modifyDialog(2, row)">编辑</el-button>
@@ -24,7 +40,10 @@ export default {
   components: { BasicTable, CreateEdit },
   data() {
     return {
-      queryParams: {},
+      queryParams: {
+        status: '',
+        attribute_name: ''
+      },
       apiFn: () => {},
       tableColumns: [
         { label: 'ID', prop: 'id', width: '80' },
