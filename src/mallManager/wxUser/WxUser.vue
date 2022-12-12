@@ -1,0 +1,66 @@
+<template>
+  <div class="app-container">
+    <el-card>
+      <el-form ref="queryForm" size="small" :model="queryParams" inline>
+
+        <el-form-item label="昵称：">
+          <el-input v-model="queryParams.nick_name" clearable />
+        </el-form-item>
+
+        <el-form-item label="用户状态：">
+          <el-select v-model="queryParams.status" filterable clearable>
+            <el-option label="启用" :value="1" />
+            <el-option label="禁用" :value="0" />
+          </el-select>
+        </el-form-item>
+      </el-form>
+    </el-card>
+
+    <basic-table ref="basicTableRef" :table-columns="tableColumns" :query-params="queryParams" :selection="true" :api-fn="apiFn">
+      <template #avatar_url="{ row }">
+        <el-image
+          style="width: 100px; height: 100px"
+          :src="row.avatar_url"
+          :preview-src-list="[row.avatar_url]"
+        />
+      </template>
+    </basic-table>
+  </div>
+</template>
+
+<script>
+import { getTableData } from './api.js'
+import { BasicTable } from '@/components/Table'
+
+export default {
+  name: 'WxUser',
+  components: { BasicTable },
+  data() {
+    return {
+      queryParams: {
+        nick_name: '',
+        status: ''
+      },
+      apiFn: () => {},
+      tableColumns: [
+        { label: 'ID', prop: 'id', width: '80' },
+        { label: '昵称', prop: 'nick_name', width: '100' },
+        { label: '微信默认地址', prop: 'addr', width: '100' },
+        { label: '微信头像', prop: 'avatar_url', slot: 'avatar_url', width: '100' },
+        { label: '余额', prop: 'balance', width: '100' },
+        { label: '状态', prop: 'statusName', width: 100 },
+        { label: '创建时间', prop: 'createTime', width: 90 },
+        { label: '修改时间', prop: 'updateTime', width: 90 }
+      ]
+    }
+  },
+  created() {
+    this.apiFn = getTableData
+  },
+  methods: {
+    refreshTableData() {
+      this.$refs.basicTableRef.queryData()
+    }
+  }
+}
+</script>

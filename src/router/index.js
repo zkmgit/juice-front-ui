@@ -72,6 +72,22 @@ export const constantRoutes = [
   },
 
   {
+    path: '/wxUserManager',
+    component: Layout,
+    redirect: '/wxUserManager/wxUser',
+    name: 'WxUserManager',
+    meta: { title: '小程序用户管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'wxUser',
+        name: 'WxUser',
+        component: () => import('@/mallManager/wxUser/WxUser.vue'),
+        meta: { title: '小程序用户管理', icon: 'dashboard' }
+      }
+    ]
+  },
+
+  {
     path: '/carouselImageManager',
     component: Layout,
     redirect: '/carouselImageManager/carouselImage',
