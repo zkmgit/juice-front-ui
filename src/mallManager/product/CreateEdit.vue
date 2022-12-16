@@ -37,12 +37,22 @@
         </el-col>
       </el-row>
 
-      <el-form-item label="状态" prop="status">
-        <el-radio-group v-model="formData.status">
-          <el-radio :label="1">启用</el-radio>
-          <el-radio :label="0">禁用</el-radio>
-        </el-radio-group>
-      </el-form-item>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="原价" prop="original_price">
+            <el-input-number v-model="formData.original_price" :min="0" :precision="2" label="请输入原价" />
+          </el-form-item>
+        </el-col>
+
+        <el-col :span="12">
+          <el-form-item label="状态" prop="status">
+            <el-radio-group v-model="formData.status">
+              <el-radio :label="1">启用</el-radio>
+              <el-radio :label="0">禁用</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
 
       <el-form-item label="主图" prop="image">
         <UploadImage ref="imageRef" v-model="formData.image" :headers="headers" />
@@ -84,6 +94,7 @@ export default {
         title: '',
         image: '',
         price: '',
+        original_price: '',
         details_img: '',
         status: 1,
         category_id: '',
@@ -97,6 +108,7 @@ export default {
         title: [{ required: true, message: '请输入产品名称', trigger: 'blur' }],
         image: [{ required: true, message: '请选择主图', trigger: 'change' }],
         price: [{ required: true, message: '请输入产品价格', trigger: 'blur' }],
+        original_price: [{ required: true, message: '请输入产品原价', trigger: 'blur' }],
         details_img: [{ required: true, message: '请选择产品详情图', trigger: 'change' }],
         category_id: [{ required: true, message: '请选择类目', trigger: 'change' }],
         inventory: [{ required: true, message: '请输入库存', trigger: 'blur' }],
@@ -138,7 +150,7 @@ export default {
       this.type = type
       // 回显
       if (type === 2) {
-        const fields = ['id', 'title', 'image', 'price', 'details_img', 'status', 'category_id', 'inventory', 'attributes', 'remark', 'categoryName', 'attributesName']
+        const fields = ['id', 'title', 'image', 'price', 'original_price', 'details_img', 'status', 'category_id', 'inventory', 'attributes', 'remark', 'categoryName', 'attributesName']
 
         fields.forEach(field => {
           if (['image'].includes(field)) {
