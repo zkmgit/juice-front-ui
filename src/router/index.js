@@ -103,6 +103,21 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/AnnouncementManager',
+    component: Layout,
+    redirect: '/AnnouncementManager/announcement',
+    name: 'AnnouncementManager',
+    meta: { title: '公告管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'announcement',
+        name: 'Announcement',
+        component: () => import('@/mallManager/announcement/Announcement.vue'),
+        meta: { title: '公告管理', icon: 'dashboard' }
+      }
+    ]
+  },
+  {
     path: '/productManager',
     component: Layout,
     redirect: '/productManager/product',
