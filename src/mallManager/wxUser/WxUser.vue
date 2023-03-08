@@ -44,7 +44,7 @@ export default {
       apiFn: () => {},
       tableColumns: [
         { label: 'ID', prop: 'id', width: '80' },
-        { label: '昵称', prop: 'nick_name', width: '100' },
+        { label: '昵称', prop: 'nickName', width: '100' },
         { label: '微信默认地址', prop: 'addr', width: '100' },
         { label: '微信头像', prop: 'avatar_url', slot: 'avatar_url', width: '100' },
         { label: '余额', prop: 'balance', width: '100' },
