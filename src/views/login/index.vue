@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">      
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
       <div class="title-container">
         <h3 class="title">Juice童装后台管理系统</h3>
       </div>
@@ -12,6 +12,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
+          class="el-input1"
           placeholder="Username"
           name="username"
           type="text"
@@ -28,6 +29,7 @@
           :key="passwordType"
           ref="password"
           v-model="loginForm.password"
+          class="el-input1"
           :type="passwordType"
           placeholder="Password"
           name="password"
@@ -41,13 +43,85 @@
       </el-form-item>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登 录</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-left: 0;margin-top: -11px" plain @click.native.prevent="handleLogon">注册</el-button>
+      <el-dialog title="注册" :visible.sync="dialogFormVisible" :modal-append-to-body="false" width="30%">
+        <el-form>
+          <el-form-item>
+            <span class="svg-container">
+              <svg-icon icon-class="name" />
+            </span>
+            <el-input
+              v-model="logonForm.name"
+              class="el-input2"
+              placeholder="请输入用户昵称"
+              name="name"
+              type="text"
+              tabindex="1"
+              auto-complete="on"
+            />
+          </el-form-item>
+          <el-form-item>
+            <span class="svg-container">
+              <svg-icon icon-class="user" />
+            </span>
+            <el-input
+              v-model="logonForm.username"
+              class="el-input2"
+              placeholder="请输入用户账号"
+              name="username"
+              type="text"
+              tabindex="1"
+              auto-complete="on"
+            />
+          </el-form-item>
+          <el-form-item>
+            <span class="svg-container">
+              <svg-icon icon-class="password" />
+            </span>
+            <el-input
+              :key="passwordType"
+              ref="password"
+              v-model="logonForm.password"
+              class="el-input2"
+              :type="passwordType"
+              placeholder="请输入密码"
+              name="password"
+              tabindex="2"
+              auto-complete="on"
+              @keyup.enter.native="handleLogon"
+            />
+            <span class="show-pwd" @click="showPwd">
+              <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+            </span>
+          </el-form-item>
+          <el-form-item>
+            <span class="svg-container">
+              <svg-icon icon-class="email" />
+            </span>
+            <el-input
+              v-model="logonForm.email"
+              class="el-input2"
+              placeholder="请输入邮箱号"
+              name="email"
+              type="text"
+              tabindex="1"
+              auto-complete="on"
+            />
+          </el-form-item>
+        </el-form>
 
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="handleSuccess">确 定</el-button>
+        </div>
+      </el-dialog>
     </el-form>
   </div>
 </template>
 
 <script>
 import { validUsername } from '@/utils/validate'
+import { insertUser } from '@/api/user'
 
 export default {
   name: 'Login',
@@ -67,9 +141,26 @@ export default {
       }
     }
     return {
+      dialogFormVisible: false,
+      form: {
+        name: '',
+        region: '',
+        date1: '',
+        date2: '',
+        delivery: false,
+        type: [],
+        resource: '',
+        desc: ''
+      },
       loginForm: {
         username: '',
         password: ''
+      },
+      logonForm: {
+        name: '',
+        username: '',
+        password: '',
+        email: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -114,6 +205,44 @@ export default {
           return false
         }
       })
+    },
+    handleLogon() {
+      this.dialogFormVisible = true
+    },
+    handleSuccess() {
+      if (this.logonForm.name === '') {
+        this.$message({
+          message: '请输入用户昵称',
+          type: 'warning'
+        })
+      } else if (this.logonForm.username === '') {
+        this.$message({
+          message: '请输入用户账号',
+          type: 'warning'
+        })
+      } else if (this.logonForm.password === '') {
+        this.$message({
+          message: '请输入密码',
+          type: 'warning'
+        })
+      } else if (this.logonForm.email === '') {
+        this.$message({
+          message: '请输入用户邮箱',
+          type: 'warning'
+        })
+      } else {
+        this.dialogFormVisible = false
+        insertUser(this.logonForm).then((res) => {
+          if (res.code === 1) {
+            this.$message({
+              message: '注册成功',
+              type: 'success'
+            })
+          } else {
+            this.$message.error('注册失败，请重新注册')
+          }
+        })
+      }
     }
   }
 }
@@ -135,7 +264,7 @@ $cursor: #fff;
 
 /* reset element-ui css */
 .login-container {
-  .el-input {
+  .el-input1 {
     display: inline-block;
     height: 47px;
     width: 85%;
@@ -156,6 +285,20 @@ $cursor: #fff;
       }
     }
   }
+    .el-input2 {
+      height: 47px;
+      width: 85%;
+
+      input {
+        color: black;
+        background: transparent;
+        border: 0px;
+        -webkit-appearance: none;
+        border-radius: 0px;
+        padding: 12px 5px 12px 15px;
+        height: 47px;
+      }
+    }
 
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);

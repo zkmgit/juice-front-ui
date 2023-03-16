@@ -7,7 +7,13 @@ export function login(data) {
     data
   })
 }
-
+export function insertUser(data) {
+  return request({
+    url: '/api/user/insertUser',
+    method: 'post',
+    data
+  })
+}
 export function getInfo(token) {
   return request({
     url: '/vue-admin-template/user/info',
