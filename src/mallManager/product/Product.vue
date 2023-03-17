@@ -37,6 +37,8 @@
       </template>
 
       <template #action="{ row }">
+        <el-button size="mini" type="primary" @click="addSkillTime(row.id)" v-if="row.categoryName === '限时秒杀'">添加秒杀时间</el-button>
+        <hr v-if="row.categoryName === '限时秒杀'">
         <el-button size="mini" type="warning" @click="modifyDialog(2, row)">编辑</el-button>
         <el-button size="mini" type="danger" @click="deleteRow(row.id)">删除</el-button>
       </template>
@@ -46,6 +48,7 @@
       </template>
     </basic-table>
     <CreateEdit ref="createEditRef" />
+    <SkillTimeEdit ref="skillTimeEdit" />
   </div>
 </template>
 
@@ -53,11 +56,12 @@
 import { getTableData, deleteProduct } from './api.js'
 import { BasicTable } from '@/components/Table'
 import CreateEdit from './CreateEdit.vue'
+import SkillTimeEdit from '@/mallManager/product/SkillTimeEdit'
 import { getCategoryList } from '@/api/common.js'
 
 export default {
   name: 'Product',
-  components: { BasicTable, CreateEdit },
+  components: { BasicTable, CreateEdit, SkillTimeEdit },
   data() {
     return {
       queryParams: {
@@ -71,16 +75,18 @@ export default {
         { label: 'ID', prop: 'id', width: '80' },
         { label: 'SPU', prop: 'spu', width: '100' },
         { label: '产品名称', prop: 'title', width: '100' },
-        { label: '图片', prop: 'image', slot: 'image', width: 100 },
+        { label: '图片', prop: 'image', slot: 'image', width: 120 },
         { label: '类目名称', prop: 'categoryName', width: '100' },
         { label: '属性名称', prop: 'attributesName', width: '100' },
         { label: '产品状态', prop: 'statusName', width: 100 },
         { label: '产品价格', prop: 'price', width: 100 },
-        { label: '库存', prop: 'inventory', width: 100 },
-        { label: '产品描述', prop: 'remark', width: 100 },
-        { label: '创建时间', prop: 'createTime', width: 130 },
-        { label: '修改时间', prop: 'updateTime', width: 130 },
-        { label: '操作', slot: 'action', width: 130 }
+        { label: '库存', prop: 'inventory', width: 60 },
+        // { label: '产品描述', prop: 'remark', width: 100 },
+        { label: '秒杀开始时间', prop: 'seckillStartTime', width: 155 },
+        { label: '秒杀结束时间', prop: 'seckillEndTime', width: 155 },
+        { label: '创建时间', prop: 'createTime', width: 155 },
+        { label: '修改时间', prop: 'updateTime', width: 155 },
+        { label: '操作', slot: 'action', width: 150 }
       ],
       categoryList: []
     }
@@ -104,6 +110,9 @@ export default {
     },
     modifyDialog(type, row) {
       this.$refs.createEditRef.init(type, row)
+    },
+    addSkillTime(id) {
+      this.$refs.skillTimeEdit.init(id)
     },
     deleteRow(id) {
       this.$confirm('此操作将永久删除该产品, 是否继续?', '提示', {

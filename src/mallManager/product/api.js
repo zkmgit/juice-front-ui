@@ -23,6 +23,14 @@ export function updateProduct(data) {
     data
   })
 }
+// 增加秒杀时间
+export function updateSkillProduct(data) {
+  return request({
+    url: '/api/product/updateSkillProduct',
+    method: 'put',
+    data
+  })
+}
 // 删除产品
 export function deleteProduct(id) {
   return request({
