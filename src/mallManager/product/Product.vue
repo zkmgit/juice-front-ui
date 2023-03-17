@@ -86,7 +86,7 @@ export default {
         { label: '秒杀结束时间', prop: 'seckillEndTime', width: 155 },
         { label: '创建时间', prop: 'createTime', width: 155 },
         { label: '修改时间', prop: 'updateTime', width: 155 },
-        { label: '操作', slot: 'action', width: 150 }
+        { label: '操作', slot: 'action', width: 150, fixed: 'right' }
       ],
       categoryList: []
     }

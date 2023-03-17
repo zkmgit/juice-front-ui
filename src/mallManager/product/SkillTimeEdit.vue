@@ -1,7 +1,7 @@
 <template>
   <el-dialog title="秒杀时间" :visible.sync="dialogVisible" width="35%" @close="closeDialog">
     <el-form ref="formData" class="query_form" size="small" :model="formData" :rules="rules" label-width="100px" label-position="right">
-      <el-form-item label="轮播图名称" prop="title">
+      <el-form-item label="限时秒杀时间" prop="title">
         <el-date-picker
           v-model="Time"
           value-format="yyyy-MM-dd HH:mm:ss"
