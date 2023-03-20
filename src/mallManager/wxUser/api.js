@@ -7,3 +7,11 @@ export function getTableData(data) {
     data
   })
 }
+// 充值
+export function Recharge(data) {
+  return request({
+    url: '/api/wxUser/updateBalance',
+    method: 'put',
+    data
+  })
+}

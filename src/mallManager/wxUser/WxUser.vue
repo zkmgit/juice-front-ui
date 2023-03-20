@@ -24,17 +24,22 @@
           :preview-src-list="[row.avatar_url]"
         />
       </template>
+      <template #action="{ row }">
+        <el-button size="mini" type="primary" @click="addBalance(row)" >充值</el-button>
+      </template>
     </basic-table>
+    <BalanceEdit ref="balanceEditRef" />
   </div>
 </template>
 
 <script>
 import { getTableData } from './api.js'
 import { BasicTable } from '@/components/Table'
+import BalanceEdit from '@/mallManager/wxUser/BalanceEdit'
 
 export default {
   name: 'WxUser',
-  components: { BasicTable },
+  components: { BasicTable, BalanceEdit },
   data() {
     return {
       queryParams: {
@@ -50,7 +55,8 @@ export default {
         { label: '余额', prop: 'balance', width: '100' },
         { label: '状态', prop: 'statusName', width: 100 },
         { label: '创建时间', prop: 'createTime', width: 90 },
-        { label: '修改时间', prop: 'updateTime', width: 90 }
+        { label: '修改时间', prop: 'updateTime', width: 90 },
+        { label: '操作', slot: 'action', width: 150, fixed: 'right' }
       ]
     }
   },
@@ -60,6 +66,9 @@ export default {
   methods: {
     refreshTableData() {
       this.$refs.basicTableRef.queryData()
+    },
+    addBalance(row) {
+      this.$refs.balanceEditRef.init(row)
     }
   }
 }
