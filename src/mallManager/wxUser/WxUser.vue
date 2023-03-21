@@ -25,7 +25,9 @@
         />
       </template>
       <template #action="{ row }">
-        <el-button size="mini" type="primary" @click="addBalance(row)" >充值</el-button>
+        <el-button size="mini" type="primary" @click="addBalance(row)">充值</el-button>
+        <el-button v-if="row.status === 1" size="mini" type="danger" @click="FreezeWxUser(row)">冻结</el-button>
+        <el-button v-if="row.status === 0" size="mini" type="success" @click="thawWxUser(row)">解冻</el-button>
       </template>
     </basic-table>
     <BalanceEdit ref="balanceEditRef" />
@@ -33,7 +35,7 @@
 </template>
 
 <script>
-import { getTableData } from './api.js'
+import { getTableData, isFreeze } from './api.js'
 import { BasicTable } from '@/components/Table'
 import BalanceEdit from '@/mallManager/wxUser/BalanceEdit'
 
@@ -69,6 +71,44 @@ export default {
     },
     addBalance(row) {
       this.$refs.balanceEditRef.init(row)
+    },
+    FreezeWxUser(row) {
+      this.$confirm('此操作将该小程序用户冻结, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        isFreeze({ id: row.id, status: 0 }).then(res => {
+          if (res.code === '1') {
+            this.$message.success(res.msg)
+            this.refreshTableData()
+            this.dialogVisible = false
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
+      }).catch(() => {
+
+      })
+    },
+    thawWxUser(row) {
+      this.$confirm('此操作将该小程序用户解冻启用, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        isFreeze({ id: row.id, status: 1 }).then(res => {
+          if (res.code === '1') {
+            this.$message.success(res.msg)
+            this.refreshTableData()
+            this.dialogVisible = false
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
+      }).catch(() => {
+
+      })
     }
   }
 }

@@ -15,3 +15,11 @@ export function Recharge(data) {
     data
   })
 }
+// 解冻or冻结
+export function isFreeze(data) {
+  return request({
+    url: '/api/wxUser/updateFreeze',
+    method: 'put',
+    data
+  })
+}
