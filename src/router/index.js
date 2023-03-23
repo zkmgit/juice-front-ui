@@ -203,6 +203,22 @@ export const constantRoutes = [
     ]
   },
 
+  {
+    path: '/configManager',
+    component: Layout,
+    redirect: '/configManager/configPage',
+    name: 'ConfigManager',
+    meta: { title: '配置管理', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'configPage',
+        name: 'ConfigPage',
+        component: () => import('@/mallManager/configPage/ConfigPage.vue'),
+        meta: { title: '配置管理', icon: 'dashboard' }
+      }
+    ]
+  },
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

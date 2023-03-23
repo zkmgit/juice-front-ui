@@ -233,7 +233,7 @@ export default {
       } else {
         this.dialogFormVisible = false
         insertUser(this.logonForm).then((res) => {
-          if (res.code === 1) {
+          if (res.code === '1') {
             this.$message({
               message: '注册成功',
               type: 'success'
